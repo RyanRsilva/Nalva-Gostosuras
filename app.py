@@ -76,3 +76,5 @@ def add_encomendas():
         return jsonify({'erro': f'Erro no banco de dados: {e}'}), 500
 
     return jsonify({'mensagem': 'Encomendas criadas com sucesso'}), 201
+
+
