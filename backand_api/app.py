@@ -43,8 +43,11 @@ def get_encomendas():
 @app.route('/encomendas', methods=['POST'])
 def add_encomendas():
     """Adiciona uma nova encomenda ao banco de dados"""
+    dados = request.get_json()
+    if not dados:
+        return jsonify({'ERRO': 'Nenhum dado JSON recebido'}), 400
+
     try:
-        dados = request.json
         # extrai cada valor, garantindo que os campos obrigatorios existem
         cliente_nome = dados['cliente_nome']
         cliente_contato = dados['cliente_contato']
@@ -62,11 +65,20 @@ def add_encomendas():
         cursor = conn.cursor()
 
         sql = """
-            INSERT INTO encomendas (cliente_nome, cliente_contato, descricao_bolo, data_entrega,valor) VALUES (?,?,?,?,?);
+            INSERT INTO encomendas (
+                
+            cliente_nome,
+            cliente_contato, 
+            descricao_bolo, 
+            data_entrega,valor
+            
+            ) 
+            
+            VALUES (?,?,?,?,?);
         """
 
         cursor.execute(sql, (cliente_nome, cliente_contato,
-                       descricao_bolo, data_entrega, valor))
+                             descricao_bolo, data_entrega, valor))
 
         conn.commit()
         conn.close()
@@ -76,5 +88,3 @@ def add_encomendas():
         return jsonify({'erro': f'Erro no banco de dados: {e}'}), 500
 
     return jsonify({'mensagem': 'Encomendas criadas com sucesso'}), 201
-
-
