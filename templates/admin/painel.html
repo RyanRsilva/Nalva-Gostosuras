@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Nalva Gostosuras</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>Painel de Controle 🎂</h1>
+        <p>Gerenciamento de Encomendas</p>
+    </header>
+
+    <main>
+        <div class="actions">
+            <button id="btn-atualizar">Atualizar Lista</button>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cliente</th>
+                        <th>Contato</th>
+                        <th>Descrição do Bolo</th>
+                        <th>Data Entrega</th>
+                        <th>Valor (R$)</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabela-corpo">
+                    <tr>
+                        <td colspan="8" style="text-align: center;">Carregando encomendas...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='admin/admin.js') }}"></script>
+</body>
+</html>

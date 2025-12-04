@@ -1,18 +1,24 @@
 #                   COMANDOS
-
 # flask --app app --debug run
 # .venv\Scripts\activate
-
 
 #                                                  CODIGO
 
 # modulos
 import sqlite3
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,render_template
 import os
 
 
+
 app = Flask(__name__)
+
+
+# Rota para acessar a tela da Tia no navegador
+@app.route('/admin')
+def admin_panel():
+    return render_template('admin/painel.html')
+
 
 
 def get_db_connection():
@@ -21,6 +27,8 @@ def get_db_connection():
     # isso trasforma as linhas em objetos parecidos com dicionairos
     conn.row_factory = sqlite3.Row
     return conn
+
+
 #                                                 ENDPOINTS
 
 
@@ -116,7 +124,7 @@ def update_encomenda(id):
 
     # Se existir ele atualiza
     conn.execute('UPDATE encomendas SET status = ? WHERE id = ?',
-                 (novo_status, id))
+                (novo_status, id))
     conn.commit()
     conn.close()
 
