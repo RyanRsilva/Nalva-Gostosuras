@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nalva Gostosuras - Confeitaria</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='client/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <div class="logo">🧁</div>
+            <h1>Nalva Gostosuras</h1>
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#contato">Contato</a></li>
+            </ul>
+        </nav>
+        
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar produtos...">
+        </div>
+    </header>
+
+<!-- parte onde mostro as promocoes -->
+<!--
+    <section class="hero">
+        <h2>Os bolos mais deliciosos!</h2>
+        <p>20% OFF</p>
+    </section>
+-->
+
+    <section class="products-section" id="secao-comuns">
+        <h2 class="section-title">Nossos Clássicos 🎂</h2>
+        <div class="products-grid" id="grade-comuns"></div>
+    </section>
+
+    <section class="products-section" id="secao-personalizados" style="background-color: #fff0f5; padding: 2rem 0;">
+        <h2 class="section-title">Faça do Seu Jeito ✨</h2>
+        <p style="text-align: center; margin-bottom: 2rem; color: #666;">Escolha a massa, o recheio e a decoração.</p>
+        <div class="products-grid" id="grade-personalizados"></div>
+    </section>
+
+
+
+
+    <footer>
+        <p>&copy; 2025 Nalva Gostosuras - Confeitaria Artesanal</p>
+        <p>Feito com amor e carinho 💕</p>
+        <div class="social-links">
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="Facebook">👍</a>
+            <a href="#" aria-label="WhatsApp">💬</a>
+        </div>
+    </footer>
+
+
+
+
+
+
+    <!-- Modal de Pedido, janela flutuante que vai cadastrar os pedidos-->
+
+    <div id="modal-pedido" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="fecharModal()">&times;</span>
+            <h3 id="modal-titulo-bolo">Confirmar Pedido</h3>
+            
+            <form id="form-pedido" onsubmit="enviarPedido(event)">
+                <input type="hidden" id="pedido-bolo">
+                <input type="hidden" id="pedido-valor">
+
+                <div class="form-group">
+                    <label>Seu Nome:</label>
+                    <input type="text" id="cliente-nome" required placeholder="Ex: Ana Maria">
+                </div>
+
+                <div class="form-group">
+                    <label>Seu WhatsApp:</label>
+                    <input type="text" id="cliente-contato" required placeholder="Ex: 11 99999-9999">
+                </div>
+
+                <div class="form-group">
+                    <label>Data para Entrega:</label>
+                    <input type="date" id="data-entrega" required>
+                </div>
+
+                <button type="submit" class="confirm-btn">Confirmar Encomenda</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='client/app.js') }}"></script>
+
+</body>
+</html>

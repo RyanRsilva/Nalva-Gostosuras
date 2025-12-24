@@ -1,48 +1,410 @@
-/* static/admin/style.css */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #121214; /* Fundo escuro */
-    color: #e1e1e6; /* Texto claro */
+/* static/admin/style.css - TEMA CONFEITARIA (PINK) */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-header {
-    text-align: center;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #29292e;
-    padding-bottom: 20px;
+body {
+    font-family: 'Poppins', sans-serif;
+    /* Fonte mais redondinha/moderna */
+    background-color: #fff0f3;
+    /* Fundo Rosa Bem Clarinho (Lavanda) */
+    color: #594a4e;
+    /* Texto Marrom Suave (leitura confortável) */
+    min-height: 100vh;
 }
 
-h1 { color: #8257e5; /* Roxo destaque */ }
+/* Header */
+.header {
+    background-color: #ffffff;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #ffccd5;
+    /* Borda Rosa Doce */
+    box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
+}
 
+.header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #d63384;
+    /* Rosa Pink Forte para o título */
+}
+
+.btn-logout {
+    background-color: #ffb3c1;
+    color: #800f2f;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 20px;
+    /* Botões arredondados */
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #ff8fa3;
+    transform: translateY(-1px);
+}
+
+/* Main Container */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.page-header h2 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: #800f2f;
+    /* Vinho suave */
+}
+
+.btn-new {
+    background: linear-gradient(135deg, #ff758f, #ff4d6d);
+    /* Degradê Rosa */
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 77, 109, 0.3);
+}
+
+.btn-new:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 77, 109, 0.4);
+}
+
+.btn-new::before {
+    content: '+';
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Table Container */
 .table-container {
-    overflow-x: auto; /* Rolagem se a tabela for muito larga */
-    background-color: #202024;
-    border-radius: 8px;
-    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(214, 51, 132, 0.1);
+    /* Sombra suave rosa */
+    border: 1px solid #ffccd5;
+}
+
+.table-wrapper {
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px;
+    min-width: 900px;
 }
 
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #29292e;
+thead {
+    background-color: #fff0f3;
+    /* Cabeçalho da tabela rosinha */
 }
 
 th {
-    background-color: #29292e;
-    color: #a8a8b3;
+    padding: 1.2rem;
+    text-align: left;
     font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #a4133c;
+    /* Texto vinho */
+    border-bottom: 2px solid #ffb3c1;
 }
 
-tr:hover { background-color: #29292e; }
+tbody tr {
+    border-bottom: 1px solid #ffe5ec;
+    transition: background-color 0.2s ease;
+}
 
-/* Cores para os status */
-.status-pendente { color: #fba94c; font-weight: bold; }
-.status-producao { color: #04d361; font-weight: bold; }
+tbody tr:hover {
+    background-color: #fff9fa;
+    /* Hover bem sutil */
+}
+
+td {
+    padding: 1.2rem;
+    font-size: 0.9375rem;
+    color: #594a4e;
+}
+
+/* ID Column */
+.id-cell {
+    font-weight: 600;
+    color: #ff4d6d;
+}
+
+/* Contact Column */
+.contact-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.whatsapp-icon {
+    width: 20px;
+    height: 20px;
+    fill: #25d366;
+    /* Verde do Zap mantém (padrão da marca) */
+}
+
+/* Status Badges - Cores adaptadas */
+.badge {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-pending {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.badge-production {
+    background-color: #cff4fc;
+    color: #055160;
+    border: 1px solid #b6effb;
+}
+
+.badge-delivered {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+}
+
+/* Value Column */
+.value-cell {
+    font-weight: 600;
+    color: #198754;
+}
+
+/* Action Buttons */
+.actions-cell {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-action {
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    /* Botões redondos */
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+}
+
+.btn-edit {
+    color: #d63384;
+    background-color: #fce4ec;
+}
+
+.btn-edit:hover {
+    background-color: #f8bbd0;
+}
+
+.btn-delete {
+    color: #dc3545;
+    background-color: #f8d7da;
+}
+
+.btn-delete:hover {
+    background-color: #f5c2c7;
+}
+
+.action-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-new {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ESTILO DO MODAL (Adicione ao final do arquivo) */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Fundo escuro transparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+    /* Efeito de desfoque no fundo */
+}
+
+.modal-container {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ffccd5;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #fff0f3;
+    padding-bottom: 1rem;
+}
+
+.modal-header h3 {
+    color: #d63384;
+    font-size: 1.5rem;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #594a4e;
+    cursor: pointer;
+}
+
+/* Estilos do Formulário */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #800f2f;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ffb3c1;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #d63384;
+    box-shadow: 0 0 0 3px rgba(214, 51, 132, 0.1);
+}
+
+.btn-save {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, #ff758f, #ff4d6d);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: transform 0.2s;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+}

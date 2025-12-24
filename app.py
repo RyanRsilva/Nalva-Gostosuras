@@ -6,9 +6,8 @@
 
 # modulos
 import sqlite3
-from flask import Flask, jsonify, request,render_template
+from flask import Flask, jsonify, request, render_template
 import os
-
 
 
 app = Flask(__name__)
@@ -20,6 +19,11 @@ def admin_panel():
     return render_template('admin/painel.html')
 
 
+# Rota Principal (Vitrine do Cliente)
+@app.route('/')
+def index():
+    return render_template('client/index.html')
+
 
 def get_db_connection():
     """Cria uma conexão com o banco de dados"""
@@ -29,8 +33,10 @@ def get_db_connection():
     return conn
 
 
-#                                                 ENDPOINTS
 
+#                             ENDPOINTS
+
+#                          methods=['GET']                        
 
 @app.route('/encomendas', methods=['GET'])  # BUSCAR / LER DADOS
 def get_encomendas():
@@ -42,61 +48,82 @@ def get_encomendas():
 
     # convertte as linhas do banco de dados em uma linha de dicionarios
     encomendas_list = [dict(row) for row in encomendas_rows]
-
     return jsonify(encomendas_list)
 
+
+
+@app.route('/produtos', methods=['GET'])
+def get_produtos():
+    # conexao com o banco
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM produtos")
+    
+    # convertte as linhas do banco de dados em uma linha de dicionarios
+    produtos = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+    
+    # retorrna os valores que estao em produtos
+    return jsonify(produtos)
+
+
+
+# BUSCAR / LER DADOS DE UMA ENCOMENDA ESPECIFICA
+@app.route('/encomendas/<int:id>', methods=['GET'])
+def get_encomenda(id):
+    """Busca e retonna uma encomenda especifica do banco de dados"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    encomenda_row = cursor.execute(
+        'SELECT * FROM encomendas WHERE id = ?;', (id,)).fetchone()
+    conn.close()
+
+    if encomenda_row is None:
+        return jsonify({'erro': 'Encomenda não encontrada'}), 404
+
+    # convertte a linha do banco de dados em um dicionario
+    encomenda_dict = dict(encomenda_row)
+
+    return jsonify(encomenda_dict)
+
+
+
+#                     methods=['POST']
 
 # recebendo os dados
 @app.route('/encomendas', methods=['POST'])  # CRIAR NOVOS DADOS
 def add_encomendas():
-    """Adiciona uma nova encomenda ao banco de dados"""
     dados = request.get_json()
-    if not dados:
-        return jsonify({'ERRO': 'Nenhum dado JSON recebido'}), 400
-
-    try:
-        # extrai cada valor, garantindo que os campos obrigatorios existem
-        cliente_nome = dados['cliente_nome']
-        cliente_contato = dados['cliente_contato']
-        descricao_bolo = dados['descricao_bolo']
-        data_entrega = dados['data_entrega']
-        valor = dados['valor']
-
-    except (TypeError, KeyError) as e:
-        # se request.json for none (typeerro) ou faltar uma chave (keyerro)
-        return jsonify({'ERRO': 'Dados errados ou faltando'}), 400
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        sql = """
-            INSERT INTO encomendas (
-                
-            cliente_nome,
-            cliente_contato, 
-            descricao_bolo, 
-            data_entrega,valor
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # adiciona novas colunas na querry SQL
+    query = """
+        INSERT INTO encomendas (
             
-            ) 
+            cliente_nome, cliente_contato, descricao_bolo,
+            data_entrega, valor, status, massa_escolhida,
+            recheio_escolhido, foto_referencia
             
-            VALUES (?,?,?,?,?);
-        """
-        cursor.execute(
-            sql, (
-                cliente_nome,
-                cliente_contato,
-                descricao_bolo,
-                data_entrega,
-                valor
-            ))
-
-        conn.commit()
-        conn.close()
-
-    except sqlite3.Error as e:
-
-        return jsonify({'erro': f'Erro no banco de dados: {e}'}), 500
-
-    return jsonify({'mensagem': 'Encomendas criadas com sucesso'}), 201
+        ) VALUES (?,?,?,?,?,?,?,?,?)
+    """
+    
+    cursor.execute(query, (
+            dados['cliente_nome'], 
+            dados['cliente_contato'], 
+            dados['descricao_bolo'],
+            dados['data_entrega'], 
+            dados['valor'], 
+            dados.get('status', 'pendente'),
+            dados.get('massa_escolhida'), # .get evita erro se o campo for vazio
+            dados.get('recheio_escolhido'),
+            dados.get('foto_referencia')
+        ))
+    
+    conn.commit()
+    conn.close()
+    return jsonify({"STATUS: SUCESSO"}), 201
+    
 
 
 # CRUD para dar update nas encomendas
@@ -123,8 +150,7 @@ def update_encomenda(id):
         return jsonify({'erro': 'Encomenda não encontrada'}), 404
 
     # Se existir ele atualiza
-    conn.execute('UPDATE encomendas SET status = ? WHERE id = ?',
-                (novo_status, id))
+    conn.execute('UPDATE encomendas SET status = ? WHERE id = ?', (novo_status, id))
     conn.commit()
     conn.close()
 
@@ -152,22 +178,3 @@ def deletar_dados(id):
     return jsonify({'mensagem': f'Encomenda {id} apagada com sucesso'}), 200
 
 
-#  CRUD para buscar um encomenda especifica
-
-# BUSCAR / LER DADOS DE UMA ENCOMENDA ESPECIFICA
-@app.route('/encomendas/<int:id>', methods=['GET'])
-def get_encomenda(id):
-    """Busca e retonna uma encomenda especifica do banco de dados"""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    encomenda_row = cursor.execute(
-        'SELECT * FROM encomendas WHERE id = ?;', (id,)).fetchone()
-    conn.close()
-
-    if encomenda_row is None:
-        return jsonify({'erro': 'Encomenda não encontrada'}), 404
-
-    # convertte a linha do banco de dados em um dicionario
-    encomenda_dict = dict(encomenda_row)
-
-    return jsonify(encomenda_dict)
